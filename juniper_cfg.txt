@@ -1,0 +1,68 @@
+
+set version 12.1X44-D35.5
+set system host-name pynet-jnpr-srx1
+set system time-zone America/Los_Angeles
+set system location building "San Francisco"
+set system root-authentication encrypted-password "$1$97eUhFdU$86IvOyci.RPxQ8aIwpv41."
+set system name-server 208.67.222.222
+set system name-server 208.67.220.220
+set system login user admin uid 2001
+set system login user admin class super-user
+set system login user admin authentication encrypted-password "$1$yoajmPix$8zbI8teGohrepw1Z/kdOF/"
+set system login user pyclass uid 2000
+set system login user pyclass class super-user
+set system login user pyclass authentication encrypted-password "$1$xWmYoDJ4$paIkCzT9IbizmJbJiPD80/"
+set system login password minimum-changes 0
+set system services ssh protocol-version v2
+set system services netconf ssh
+set system syslog archive size 120k
+set system syslog archive files 3
+set system syslog user * any emergency
+set system syslog file messages any error
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands error
+set system syslog log-rotate-frequency 5
+set system max-configurations-on-flash 5
+set system max-configuration-rollbacks 5
+set system license autoupdate url https://ae1.juniper.net/junos/key_retrieval
+set interfaces fe-0/0/0 unit 0
+set interfaces fe-0/0/1 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces fe-0/0/2 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces fe-0/0/3 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces fe-0/0/4 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces fe-0/0/5 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces fe-0/0/6 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces fe-0/0/7 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces vlan unit 0 description "Management Vlan 0"
+set interfaces vlan unit 0 family inet address 10.220.88.39/24
+set routing-options static route 0.0.0.0/0 next-hop 10.220.88.1
+set protocols lldp interface all
+set protocols stp
+set security screen ids-option untrust-screen icmp ping-death
+set security screen ids-option untrust-screen ip source-route-option
+set security screen ids-option untrust-screen ip tear-drop
+set security screen ids-option untrust-screen tcp syn-flood alarm-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood attack-threshold 200
+set security screen ids-option untrust-screen tcp syn-flood source-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood destination-threshold 2048
+set security screen ids-option untrust-screen tcp syn-flood timeout 20
+set security screen ids-option untrust-screen tcp land
+set security nat source rule-set trust-to-untrust from zone trust
+set security nat source rule-set trust-to-untrust to zone untrust
+set security nat source rule-set trust-to-untrust rule source-nat-rule match source-address 0.0.0.0/0
+set security nat source rule-set trust-to-untrust rule source-nat-rule then source-nat interface
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match source-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match destination-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match application any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust then permit
+set security zones security-zone trust host-inbound-traffic system-services all
+set security zones security-zone trust host-inbound-traffic protocols all
+set security zones security-zone trust interfaces vlan.0
+set security zones security-zone untrust screen untrust-screen
+set security zones security-zone untrust interfaces fe-0/0/0.0 host-inbound-traffic system-services dhcp
+set security zones security-zone untrust interfaces fe-0/0/0.0 host-inbound-traffic system-services tftp
+set firewall family inet filter EXTERNAL-IN-V4 term BLOCK-SPOOFED from source-address 17.255.254.0/23
+set firewall family inet filter EXTERNAL-IN-V4 term BLOCK-SPOOFED from source-address 17.255.252.0/22
+set firewall family inet filter EXTERNAL-IN-V4 term BLOCK-SPOOFED then discard
+set vlans vlan-trust vlan-id 3
+set vlans vlan-trust l3-interface vlan.0
