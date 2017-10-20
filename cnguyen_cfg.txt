@@ -1,0 +1,30 @@
+
+set version 15.1F4.15
+set groups global system login user pyclass uid 2000
+set groups global system login user pyclass class super-user
+set groups global system login user pyclass authentication encrypted-password "$5$aVud4hIY$.pR7nwTK6cW/r186SHeO/PrTzUyuFYN23gxg.ZN21Y2"
+set apply-groups global
+set system host-name juniper1
+set system domain-name bogus.com
+set system root-authentication encrypted-password "$5$aVud4hIY$.pR7nwTK6cW/r186SHeO/PrTzUyuFYN23gxg.ZN21Y2"
+set system login user admin uid 2001
+set system login user admin class super-user
+set system login user admin authentication encrypted-password "$5$aVud4hIY$.pR7nwTK6cW/r186SHeO/PrTzUyuFYN23gxg.ZN21Y2"
+set system services ssh
+set system services netconf ssh
+set system syslog user * any emergency
+set system syslog file messages any error
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system syslog file message any error
+set interfaces ge-0/0/0 unit 0 family inet
+set interfaces ge-0/0/1 unit 0 family inet
+set interfaces ge-0/0/2 unit 0 family inet address 10.100.1.1/24
+set interfaces ge-0/0/3 unit 0 family inet
+set interfaces ge-0/0/8 unit 0 family inet
+set interfaces fxp0 unit 0 family inet address 10.0.0.31/24
+set snmp community invalid42 authorization read-only
+set routing-options static route 0.0.0.0/0 next-hop 10.0.0.2
+set routing-options static route 1.1.6.0/24 next-hop 10.220.88.1
+set protocols lldp port-id-subtype interface-name
+set protocols lldp interface all
